@@ -111,8 +111,8 @@ namespace Prototype
 			pos = GlobalData.s.CurrentPlayer.transform.position;
             //Restrict the layer to layer 8
             int layerMask = 1 << 8;
-            RaycastHit2D hit = Physics2D.Linecast(pos, new Vector3(pos.x, pos.y - (GlobalData.s.InvertMultiplier*1.5f), pos.z),layerMask);
-            Debug.DrawLine(pos, new Vector3(pos.x, pos.y - (GlobalData.s.InvertMultiplier*1.5f), pos.z), Color.yellow);
+            RaycastHit2D hit = Physics2D.Linecast(pos, new Vector3(pos.x, pos.y - (GlobalData.s.InvertMultiplier), pos.z),layerMask);
+            Debug.DrawLine(pos, new Vector3(pos.x, pos.y - (GlobalData.s.InvertMultiplier), pos.z), Color.yellow);
             isGrounded = hit.collider != null;
         }
 
