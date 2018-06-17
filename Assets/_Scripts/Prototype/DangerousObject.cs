@@ -10,12 +10,18 @@ namespace Prototype
 		[Tooltip("How much damage will this object deal?")]
 		public int DamageDealt = 1;
 
+		[Tooltip("Can this object deal damage through invulnerability frames?")]
+		public bool IsPiercing;
+
 		public void OnCollisionEnter2D(Collision2D collision)
 		{
 			var obj = collision.gameObject;
 
 			if (obj == GlobalData.s.CurrentPlayer) {
-				HealthManager.s.DamagePlayer(gameObject, DamageDealt);
+				if (IsPiercing || !PlayerManager.s.IsInvulnerable)
+				{
+                    HealthManager.s.DamagePlayer(gameObject, DamageDealt);
+				}
 			}
 		}
 	}
