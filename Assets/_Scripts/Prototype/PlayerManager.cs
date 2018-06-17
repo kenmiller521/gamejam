@@ -13,7 +13,13 @@ namespace Prototype
 
 		// Inspector values
 		public float HorizontalSpeed;
-		public float JumpForce;
+		public float JumpSpeed;
+
+		[Tooltip("How long is the player stunned for after taking damage.")]
+		public float StunDuration;
+        [Tooltip("How long is the player invulnerable after taking damage.")]
+		public float InvulnerabilityDuration;
+        [Tooltip("How much is the player knocked away after taking damage.")]
 		public Vector2 KnockbackVector;
 
 		// Rigidbody References
@@ -35,6 +41,10 @@ namespace Prototype
 
 		Rigidbody2D _mainRB2D;
 		Rigidbody2D _invertedRB2D;
+
+		public bool IsStunned;
+		public bool IsInvulnerable;
+		float _lastTimeDamaged;
 
 		#region MonoBehaviour Callbacks
 
@@ -86,6 +96,17 @@ namespace Prototype
 			pos.y *= -1;
 			GlobalData.s.OtherPlayer.transform.position = pos;
 			OtherRB2D.velocity = CurrentRB2D.velocity;
+			if (IsStunned || IsInvulnerable) {
+				var timeDiff = Time.time - _lastTimeDamaged;
+
+				if (timeDiff >= InvulnerabilityDuration) {
+					IsInvulnerable = false;
+				}
+
+				if (timeDiff >= StunDuration) {
+					IsStunned = false;
+				}
+			}
 		}
 
         #endregion
@@ -94,6 +115,8 @@ namespace Prototype
 
         public void OnMove(float x)
 		{
+			if (IsStunned) return;
+
 			var yVelocity = CurrentRB2D.velocity.y;
 			var velocity = new Vector2(x * HorizontalSpeed, yVelocity);
 			CurrentRB2D.velocity = velocity;
@@ -101,8 +124,10 @@ namespace Prototype
 
 		public void OnJump()
 		{
-			var jumpVelocity = new Vector2(0, JumpForce * GlobalData.s.InvertMultiplier);
-			CurrentRB2D.velocity += jumpVelocity;
+			if (IsStunned) return;
+			var velocity = CurrentRB2D.velocity;
+			var jumpVelocity = new Vector2(velocity.x, JumpSpeed * GlobalData.s.InvertMultiplier);
+			CurrentRB2D.velocity = jumpVelocity;
 		}
 
 		void OnDamage(GameObject damager) {
@@ -116,6 +141,10 @@ namespace Prototype
 			playerPos.x += xDirection * 0.1f;
 			GlobalData.s.CurrentPlayer.transform.position = playerPos;
 			CurrentRB2D.velocity = velocity;
+
+			IsStunned = true;
+			IsInvulnerable = true;
+			_lastTimeDamaged = Time.time;
 		}
 
         void OnDeath()

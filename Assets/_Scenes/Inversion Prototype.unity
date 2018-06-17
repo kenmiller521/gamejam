@@ -194,8 +194,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HorizontalSpeed: 3
-  JumpForce: 10
-  KnockbackVector: {x: 5, y: 5}
+  JumpSpeed: 10
+  StunDuration: 0.7
+  InvulnerabilityDuration: 1
+  KnockbackVector: {x: 3, y: 2}
+  IsStunned: 0
+  IsInvulnerable: 0
 --- !u!114 &156109732
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -329,6 +333,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DamageDealt: 1
+  IsPiercing: 0
 --- !u!1 &774211730
 GameObject:
   m_ObjectHideFlags: 0
