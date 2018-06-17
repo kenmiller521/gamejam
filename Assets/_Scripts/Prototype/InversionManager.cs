@@ -24,9 +24,14 @@ namespace Prototype
 			InputManager.OnInvert += OnInvert;
 		}
 
-		#endregion
 
-		public void OnInvert() {
+        private void OnDisable()
+        {
+            InputManager.OnInvert -= OnInvert;
+        }
+        #endregion
+
+        public void OnInvert() {
             Debug.Log("OnInvert");
 			Camera.main.projectionMatrix *= Matrix4x4.Scale(new Vector3(1, -1, 1));
 			GlobalData.s.IsInverted = !GlobalData.s.IsInverted;
