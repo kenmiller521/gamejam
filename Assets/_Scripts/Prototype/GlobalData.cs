@@ -10,6 +10,8 @@ namespace Prototype
 		// Singleton
 		public static GlobalData s;
 
+
+
 		#region MonoBehaviour Callbacks
 
 		// Set singleton
