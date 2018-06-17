@@ -40,5 +40,12 @@ namespace Prototype
 				OnDeath();
 			}
 		}
+
+        /// <summary>
+        /// Sets health to max
+        /// </summary>
+		public void ResetHealth() {
+			CurrentHealth = MaxHealth;
+		}
 	}
 }
