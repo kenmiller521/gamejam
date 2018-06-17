@@ -15,7 +15,7 @@ namespace Prototype
 			var obj = collision.gameObject;
 
 			if (obj == GlobalData.s.CurrentPlayer) {
-				HealthManager.s.DamagePlayer(DamageDealt);
+				HealthManager.s.DamagePlayer(gameObject, DamageDealt);
 			}
 		}
 	}

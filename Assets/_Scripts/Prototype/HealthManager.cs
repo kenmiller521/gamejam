@@ -13,7 +13,7 @@ namespace Prototype
         public int MaxHealth;
 		public int CurrentHealth { get; private set; }
 
-        public delegate void DamageEvent();
+        public delegate void DamageEvent(GameObject damager);
 		public static event DamageEvent OnDamage;
 
         public delegate void DeathEvent();
@@ -30,17 +30,17 @@ namespace Prototype
         /// Lower player's health by amount
         /// </summary>
         /// <param name="amount">Amount.</param>
-		public void DamagePlayer(int amount) {
+		public void DamagePlayer(GameObject damager,int amount) {
 			CurrentHealth -= amount;
 			Debug.Log(CurrentHealth);
-			if (CurrentHealth <= 0) {
-                CurrentHealth = 0;
+			if (CurrentHealth > 0) {
 				if (OnDamage != null)
 				{
-					OnDamage();
+					OnDamage(damager);
 				}
 			}
 			else {
+                CurrentHealth = 0;
 				if (OnDeath != null)
 				{
 					OnDeath();
