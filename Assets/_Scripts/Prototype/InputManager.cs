@@ -48,7 +48,6 @@ namespace Prototype
 
 			if (xAxis != 0)
 			{
-				Debug.Log("OnMove");
 				if (OnMove != null)
 				{
 					OnMove(xAxis);
@@ -60,7 +59,6 @@ namespace Prototype
 		{
 			if (Input.GetButtonDown("Jump"))
 			{
-                Debug.Log("OnJump");
 				if (OnJump != null)
 				{
 					OnJump();
@@ -83,7 +81,6 @@ namespace Prototype
 		{
 			if (Input.GetKeyDown(KeyCode.Escape))
 			{
-                Debug.Log("OnEscape");
 				if (OnEscape != null)
 				{
 					OnEscape();
