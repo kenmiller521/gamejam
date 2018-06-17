@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace Prototype
 {
@@ -50,6 +51,7 @@ namespace Prototype
 		{
 			InputManager.OnMove += OnMove;
 			InputManager.OnJump += OnJump;
+            HealthManager.OnDeath += OnDeath;
 			MainRB2D = GlobalData.s.MainPlayer.GetComponent<Rigidbody2D>();
 			InvertedRB2D = GlobalData.s.InvertedPlayer.GetComponent<Rigidbody2D>();
 		}
@@ -61,11 +63,20 @@ namespace Prototype
 			GlobalData.s.OtherPlayer.transform.position = pos;
 		}
 
-		#endregion
+        private void OnDisable()
+        {
+            InputManager.OnMove -= OnMove;
+            InputManager.OnJump -= OnJump;
+            HealthManager.OnDeath -= OnDeath;
+        }
 
-		#region Event Callbacks
+        
 
-		public void OnMove(float x)
+        #endregion
+
+        #region Event Callbacks
+
+        public void OnMove(float x)
 		{
 			var yVelocity = CurrentRB2D.velocity.y;
 			var velocity = new Vector2(x * HorizontalSpeed, yVelocity);
@@ -79,6 +90,10 @@ namespace Prototype
 			CurrentRB2D.velocity += jumpVelocity;
 		}
 
-		#endregion
-	}
+        private void OnDeath()
+        {
+            throw new NotImplementedException();
+        }
+        #endregion
+    }
 }
