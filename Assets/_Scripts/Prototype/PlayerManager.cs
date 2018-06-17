@@ -14,7 +14,7 @@ namespace Prototype
 		// Inspector values
 		public float HorizontalSpeed;
 		public float JumpSpeed;
-
+        public bool isGrounded;
 		[Tooltip("How long is the player stunned for after taking damage.")]
 		public float StunDuration;
         [Tooltip("How long is the player invulnerable after taking damage.")]
@@ -107,7 +107,13 @@ namespace Prototype
 					IsStunned = false;
 				}
 			}
-		}
+            Transform trans = GlobalData.s.CurrentPlayer.transform;
+            //Restrict the layer to layer 8
+            int layerMask = 1 << 8;
+            RaycastHit2D hit = Physics2D.Linecast(trans.position, new Vector3(trans.position.x, trans.position.y - (GlobalData.s.InvertMultiplier), trans.position.z),layerMask);
+            Debug.DrawLine(trans.position, new Vector3(trans.position.x, trans.position.y - (GlobalData.s.InvertMultiplier), trans.position.z), Color.yellow);
+            isGrounded = hit.collider != null;
+        }
 
         #endregion
 
@@ -125,6 +131,7 @@ namespace Prototype
 		public void OnJump()
 		{
 			if (IsStunned) return;
+			if (!isGrounded) return;
 			var velocity = CurrentRB2D.velocity;
 			var jumpVelocity = new Vector2(velocity.x, JumpSpeed * GlobalData.s.InvertMultiplier);
 			CurrentRB2D.velocity = jumpVelocity;
