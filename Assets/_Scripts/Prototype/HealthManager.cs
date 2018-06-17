@@ -23,6 +23,7 @@ namespace Prototype
 		void Awake()
 		{
 			s = this;
+			CurrentHealth = MaxHealth;
 		}
 
         /// <summary>
@@ -31,13 +32,19 @@ namespace Prototype
         /// <param name="amount">Amount.</param>
 		public void DamagePlayer(int amount) {
 			CurrentHealth -= amount;
-         
+			Debug.Log(CurrentHealth);
 			if (CurrentHealth <= 0) {
                 CurrentHealth = 0;
-				OnDamage();
+				if (OnDamage != null)
+				{
+					OnDamage();
+				}
 			}
 			else {
-				OnDeath();
+				if (OnDeath != null)
+				{
+					OnDeath();
+				}
 			}
 		}
 
